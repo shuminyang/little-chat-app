@@ -1,4 +1,4 @@
-package models
+package users
 
 import (
 	"chat-app/database"
@@ -8,10 +8,10 @@ import (
 )
 
 type User struct {
-	ID        uuid.UUID `gorm:"primaryKey"`
-	FirstName string    `gorm:"not null"`
-	LastName  string    `gorm:"not null"`
-	Email     string    `gorm:"not null,uniqueIndex"`
+	ID        uuid.UUID
+	FirstName string
+	LastName  string
+	Email     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -26,3 +26,5 @@ func CreateUser(user *User) (uuid.UUID, error) {
 	return id, err
 
 }
+
+func Test() {}
