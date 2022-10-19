@@ -1,16 +1,14 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 
-	"chat-app/database/models"
-
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	_ "github.com/lib/pq"
 )
 
 type DatabaseManager struct {
-	db *gorm.DB
+	db *sql.DB
 }
 
 var databaseInstance *DatabaseManager
@@ -19,7 +17,13 @@ func InitDatabase() {
 	if databaseInstance == nil {
 		databaseUrl := "host=localhost user=postgres password=1234567890 dbname=little-chat-app port=5555 sslmode=disable"
 
-		db, err := gorm.Open(postgres.Open(databaseUrl), &gorm.Config{})
+		db, err := sql.Open("postgres", databaseUrl)
+
+		if err != nil {
+			panic(err)
+		}
+
+		err = db.Ping()
 
 		if err != nil {
 			panic(err)
@@ -33,18 +37,10 @@ func InitDatabase() {
 	fmt.Println("Successfully connected!")
 }
 
-func GetConnection() *gorm.DB {
+func GetConnection() *sql.DB {
 	if databaseInstance == nil {
 		InitDatabase()
 	}
 
 	return databaseInstance.db
-}
-
-func RunAutoMigration() {
-	db := GetConnection()
-
-	db.AutoMigrate(&models.User{})
-
-	fmt.Println("Schema is up to date.")
 }

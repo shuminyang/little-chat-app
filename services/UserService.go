@@ -1,26 +1,23 @@
 package services
 
 import (
-	"chat-app/database"
 	"chat-app/database/models"
-	"fmt"
 )
 
-func CreateUser(name *string, email *string) (id string, err error) {
-	db := database.GetConnection()
+func CreateUser(firstName *string, lastName *string, email *string) (id string, err error) {
+
 	user := models.User{
-		Name:  *name,
-		Email: *email,
+		FirstName: *firstName,
+		LastName:  *lastName,
+		Email:     *email,
 	}
 
-	fmt.Println("this is the user", user)
+	result, err := models.CreateUser(&user)
 
-	result := db.Create(&user)
-
-	if result.Error != nil {
-		return "", result.Error
+	if err != nil {
+		return "", err
 
 	}
 
-	return user.ID.String(), nil
+	return result.String(), nil
 }

@@ -14,7 +14,6 @@ func homeHandler(c *gin.Context) {
 
 func main() {
 	database.InitDatabase()
-	database.RunAutoMigration()
 
 	router := gin.Default()
 	router.SetTrustedProxies([]string{"localhost"})
