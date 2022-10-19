@@ -18,6 +18,8 @@ type User struct {
 
 func CreateUser(user *User) (uuid.UUID, error) {
 	db := database.GetConnection()
+	defer db.Close()
+
 	sqlStatement := `INSERT INTO users (first_name, last_name, email) values ($1, $2, $3) RETURNING id;`
 
 	var id uuid.UUID

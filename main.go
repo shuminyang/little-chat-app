@@ -1,16 +1,12 @@
 package main
 
 import (
-	"chat-app/api"
+	apiMessages "chat-app/api/messages"
+	apiUser "chat-app/api/users"
 	"chat-app/database"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-func homeHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, "Hello, world!")
-}
 
 func main() {
 	database.InitDatabase()
@@ -18,8 +14,9 @@ func main() {
 	router := gin.Default()
 	router.SetTrustedProxies([]string{"localhost"})
 
-	router.GET("/", homeHandler)
-	router.POST("/create-user", api.CreateUser)
+	router.POST("/create-user", apiUser.CreateUser)
+	router.POST("/create-message", apiMessages.CreateMessage)
+	router.GET("/get-messages", apiMessages.GetMessages)
 
 	router.Run()
 }

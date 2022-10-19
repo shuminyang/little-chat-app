@@ -1,18 +1,30 @@
 package messages
 
 import (
+	"fmt"
 	"net/http"
+
+	"chat-app/database/models/message"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetMessages(c *gin.Context) {
-	c.JSON(http.StatusOK, "Hello, world!")
+	messages, err := message.GetMessages()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	fmt.Println("messages", messages)
+
+	c.JSON(http.StatusOK, messages)
 }
 
 type CreateMessageInterface struct {
-	UserId  string `json:"userId" binding:"required"`
-	Message string `json:"message" binding:"required"`
+	UserId  string `json:"userId" binding:"required,uuid"`
+	Content string `json:"content" binding:"required"`
 }
 
 func CreateMessage(c *gin.Context) {
@@ -23,4 +35,12 @@ func CreateMessage(c *gin.Context) {
 		return
 	}
 
+	result, err := message.CreateMessage(&msgInterface.UserId, &msgInterface.Content)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, result.String())
 }
