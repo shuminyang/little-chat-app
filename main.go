@@ -4,12 +4,14 @@ import (
 	apiMessages "chat-app/api/messages"
 	apiUser "chat-app/api/users"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
 	router := gin.Default()
+	router.Use(cors.Default())
 	router.SetTrustedProxies([]string{"localhost"})
 
 	router.POST("/create-user", apiUser.CreateUser)

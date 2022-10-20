@@ -8,11 +8,11 @@ import (
 )
 
 type MessageModel struct {
-	ID        uuid.UUID
-	UserId    uuid.UUID
-	Content   string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        uuid.UUID `json:"id"`
+	UserId    uuid.UUID `json:"userId"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func CreateMessage(userId *string, content *string) (uuid.UUID, error) {
