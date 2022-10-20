@@ -1,7 +1,6 @@
 package messages
 
 import (
-	"fmt"
 	"net/http"
 
 	"chat-app/database/models/message"
@@ -13,11 +12,9 @@ func GetMessages(c *gin.Context) {
 	messages, err := message.GetMessages()
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	fmt.Println("messages", messages)
 
 	c.JSON(http.StatusOK, messages)
 }
@@ -38,7 +35,7 @@ func CreateMessage(c *gin.Context) {
 	result, err := message.CreateMessage(&msgInterface.UserId, &msgInterface.Content)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
