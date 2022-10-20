@@ -39,5 +39,5 @@ func CreateMessage(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, result.String())
+	c.JSON(http.StatusOK, gin.H{"result": result.String()})
 }

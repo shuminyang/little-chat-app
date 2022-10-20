@@ -1,8 +1,8 @@
 package main
 
 import (
+	apiAuth "chat-app/api/auth"
 	apiMessages "chat-app/api/messages"
-	apiUser "chat-app/api/users"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -14,7 +14,8 @@ func main() {
 	router.Use(cors.Default())
 	router.SetTrustedProxies([]string{"localhost"})
 
-	router.POST("/create-user", apiUser.CreateUser)
+	router.POST("/register", apiAuth.Register)
+
 	router.POST("/create-message", apiMessages.CreateMessage)
 	router.GET("/get-messages", apiMessages.GetMessages)
 
