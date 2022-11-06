@@ -15,6 +15,7 @@ func main() {
 	router.SetTrustedProxies([]string{"localhost"})
 
 	router.POST("/register", apiAuth.Register)
+	router.POST("/sign-in", apiAuth.SignIn)
 
 	router.POST("/create-message", apiMessages.CreateMessage)
 	router.GET("/get-messages", apiMessages.GetMessages)
